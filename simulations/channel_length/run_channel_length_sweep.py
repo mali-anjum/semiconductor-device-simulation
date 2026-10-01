@@ -39,7 +39,7 @@ def main():
 
     save_metrics_csv(SWEEP_NAME, "channel_length_cm", results)
     save_id_vg_csv(SWEEP_NAME, "channel_length_cm", results)
-    save_plots(SWEEP_NAME, "channel_length_cm", PARAM_LABEL, results)
+    save_plots(SWEEP_NAME, "channel_length_cm", PARAM_LABEL, results, display_scale=1e4)
 
     i_on = [r["i_on_A_per_cm"] for r in results]
     ion_decreases_with_length = all(i_on[i] > i_on[i + 1] for i in range(len(i_on) - 1))

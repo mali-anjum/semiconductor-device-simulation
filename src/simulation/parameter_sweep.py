@@ -103,14 +103,15 @@ def save_id_vg_csv(sweep_name: str, param_name: str, results: list) -> pathlib.P
     return out_csv
 
 
-def save_plots(sweep_name: str, param_name: str, param_label: str, results: list) -> None:
+def save_plots(sweep_name: str, param_name: str, param_label: str, results: list, display_scale: float = 1.0) -> None:
+    """display_scale converts the stored param value (cgs) to the unit named in param_label, e.g. 1e4 for cm -> um."""
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
     FIGURES_DIR.mkdir(parents=True, exist_ok=True)
-    values = [r["param_value"] for r in results]
+    values = [r["param_value"] * display_scale for r in results]
 
     fig, axes = plt.subplots(1, 3, figsize=(13, 4))
     axes[0].plot(values, [r["vth_V"] for r in results], marker="o")
@@ -131,7 +132,7 @@ def save_plots(sweep_name: str, param_name: str, param_label: str, results: list
     fig, ax = plt.subplots(figsize=(6, 4.5))
     for r in results:
         id_plot = [max(abs(i), 1e-30) for i in r["id_vg_linear_A_per_cm"]]
-        ax.semilogy(r["gate_sweep_V"], id_plot, label="{0} = {1:g}".format(param_label, r["param_value"]))
+        ax.semilogy(r["gate_sweep_V"], id_plot, label="{0} = {1:g}".format(param_label, r["param_value"] * display_scale))
     ax.set_xlabel("V_G (V)")
     ax.set_ylabel("|I_D| (A/cm)")
     ax.set_title("Sprint 3: {0} -- I_D-V_G by {1}".format(sweep_name, param_label))

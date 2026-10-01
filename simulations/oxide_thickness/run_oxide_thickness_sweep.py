@@ -39,7 +39,7 @@ def main():
 
     save_metrics_csv(SWEEP_NAME, "oxide_thickness_cm", results)
     save_id_vg_csv(SWEEP_NAME, "oxide_thickness_cm", results)
-    save_plots(SWEEP_NAME, "oxide_thickness_cm", PARAM_LABEL, results)
+    save_plots(SWEEP_NAME, "oxide_thickness_cm", PARAM_LABEL, results, display_scale=1e7)
 
     vth = [r["vth_V"] for r in results]
     i_on = [r["i_on_A_per_cm"] for r in results]
